@@ -1,6 +1,6 @@
-# LunaDB-Client
+# LonaDB-Client
 
-This is the JavaScript Client for [LunaDB](https://github.com/LonaDB/Server)
+This is the JavaScript Client for [LonaDB](https://github.com/LonaDB/Server)
 
 LunaDB is my 3rd attempt in creating my own "database".
 Please keep in mind that this is a early prototype.

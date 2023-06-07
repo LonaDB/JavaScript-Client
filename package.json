@@ -1,18 +1,18 @@
 {
-  "name": "lunadb-client",
+  "name": "lonadb-client",
   "version": "3.1.6",
-  "description": "A client for the LunaDB Prototype",
+  "description": "A client for the LonaDB Prototype",
   "main": "Client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Hanyaku-Chan/LunaDB-Client"
+    "url": "https://github.com/LonaDB/JavaScript-Client"
   },
   "keywords": [
     "database",
-    "lunadb",
+    "lonadb",
     "json",
     "variable",
     "variables"

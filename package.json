@@ -1,6 +1,6 @@
 {
   "name": "lonadb-client",
-  "version": "3.1.6",
+  "version": "3.2.0",
   "description": "A client for the LonaDB Prototype",
   "main": "Client.js",
   "scripts": {

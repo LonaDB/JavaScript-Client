@@ -2,7 +2,7 @@
 
 This is the JavaScript Client for [LonaDB](https://github.com/LonaDB/Server)
 
-LunaDB is my 3rd attempt in creating my own "database".
+LonaDB is my 3rd attempt in creating my own "database".
 Please keep in mind that this is a early prototype.
 
 1st attempt: [ShinoaDB](https://github.com/Hanyaku-Chan/ShinoaDB)
@@ -19,7 +19,7 @@ npm i lonadb-client
 To use LonaDB, you have to use the LonaDB Client for JavaScript or create your own Client.
 
 ```javascript
-let LunaDB = require("lonadb-client");
+let LonaDB = require("lonadb-client");
 let database = new LonaDB("Host", Port, "Login Name", "Login Password");
 ```
 

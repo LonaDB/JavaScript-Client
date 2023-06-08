@@ -1,4 +1,5 @@
 let net = require("net");
+let BSON = require("bson");
 
 function makeid(length){
     let result = "";
@@ -27,11 +28,11 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
                 if(dataParse.process === processID) resolve(dataParse);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "create_table",
                 "table": {"name": name},
                 "login": {
@@ -49,11 +50,11 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
                 if(dataParse.process === processID) resolve(dataParse);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "set_variable",
                 "table": {"name": table},
                 "variable": {
@@ -75,11 +76,11 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
                 if(dataParse.process === processID) resolve(dataParse);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "remove_variable",
                 "table": {"name": table},
                 "variable": {
@@ -100,13 +101,13 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
                 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
                 if(dataParse.process === processID) resolve(dataParse.variable.value);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "get_variable",
                 "table": {"name": table},
                 "variable": {
@@ -127,13 +128,17 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
+
+                console.log(dataParse)
                 
+                if(dataParse.err) return console.log(data.err)
+
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
                 if(dataParse.process === processID) resolve(dataParse.variable.value);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "create_user",
                 "login": {
                     "name": this.name,
@@ -154,13 +159,13 @@ module.exports = class {
             let processID = makeid(5);
 
             await client.on("data", dataRaw => {
-                let dataParse = JSON.parse(dataRaw.toString());
+                let dataParse = BSON.deserialize(dataRaw);
                 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
                 if(dataParse.process === processID) resolve(dataParse.variable.value);
             });
     
-            await client.write(JSON.stringify({
+            await client.write(BSON.serialize({
                 "action": "delete_user",
                 "login": {
                     "name": this.name,

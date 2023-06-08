@@ -1,45 +1,49 @@
-# LonaDB-Client
+# LonaDB-JavaScript-Client
 
-This is the JavaScript Client for [LonaDB](https://github.com/LonaDB/Server)
+This is the JavaScript client for interacting with LonaDB, a custom "database" developed by the the LonaDB Team. This documentation provides an overview of the client's installation, usage, available actions, and contribution guidelines.
 
-LonaDB is my 3rd attempt in creating my own "database".
-Please keep in mind that this is a early prototype.
+## Installation
 
-1st attempt: [ShinoaDB](https://github.com/Hanyaku-Chan/ShinoaDB)
-2nd attempt: [AnbuDB](https://github.com/Hanyaku-Chan/AnbuDB)
-
-## Installation.
+To install the LonaDB-Client, use the following npm command:
 
 ```bash
-npm i lonadb-client
+npm install lonadb-client
 ```
 
 ## Usage
 
-To use LonaDB, you have to use the LonaDB Client for JavaScript or create your own Client.
+To use the LonaDB-Client, you need to create an instance of the client in your JavaScript code. Here's an example:
 
 ```javascript
-let LonaDB = require("lonadb-client");
-let database = new LonaDB("Host", Port, "Login Name", "Login Password");
+const LonaDB = require("lonadb-client");
+
+const database = new LonaDB("Host", Port, "Login Name", "Login Password");
 ```
 
-You can currently do:
-- LonaDB.set(table, name, value)
-- LonaDB.get(table, name)
-- LonaDB.remove(table, name)
-- LonaDB.createTable(name)
+Replace `"Host"`, `Port`, `"Login Name"`, and `"Login Password"` with the appropriate values for your LonaDB server.
 
+### Available Actions
 
-And you can manage users if you have access to the Administrator user:
-- LonaDB.createUser(name, password)
-- LonaDB.deleteUser(name)
+Once you have instantiated the LonaDB client, you can perform the following actions:
 
-The users created can be used to access the database. (What else should we use them for? Any suggestions? Open a issue!)
+- `LonaDB.set(table, name, value)`: Sets the value of a variable in a table.
+- `LonaDB.get(table, name)`: Retrieves the value of a variable from a table.
+- `LonaDB.remove(table, name)`: Removes a variable from a table.
+- `LonaDB.createTable(name)`: Creates a new table.
+
+If you have administrator access, you can also manage users using the following methods:
+
+- `LonaDB.createUser(name, password)`: Creates a new user.
+- `LonaDB.deleteUser(name)`: Deletes a user.
+
+The created users can be used to access the database.
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+Contributions to the LonaDB-Client are welcome. Before making any major changes, please open an issue to discuss your proposed changes.
+
+When submitting your contributions, please ensure that you update any relevant tests to maintain code quality.
 
 ## License
-[GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
+
+The LonaDB-Client is licensed under the GNU Affero General Public License v3.0 (AGPLv3). For more details, please refer to the [license file](https://choosealicense.com/licenses/agpl-3.0/).

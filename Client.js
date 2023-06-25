@@ -178,4 +178,54 @@ module.exports = class {
             }));
         });
     }
+
+    checkPassword = async function(name, password){
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse.variable.value);
+            });
+    
+            await client.write(BSON.serialize({
+                "action": "check_password",
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "checkPass": {
+                    "name": name,
+                    "pass": password
+                },
+                "process": processID
+            }));
+        });
+    }
+
+    getTables = async function() {
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse.variable.value);
+            });
+    
+            await client.write(BSON.serialize({
+                "action": "get_tables",
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "process": processID
+            }));
+        });
+    }
 }

@@ -135,7 +135,7 @@ module.exports = class {
                 if(dataParse.err) return console.log(data.err)
 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
-                if(dataParse.process === processID) resolve(dataParse.variable.value);
+                if(dataParse.process === processID) resolve(dataParse);
             });
     
             await client.write(BSON.serialize({
@@ -162,7 +162,7 @@ module.exports = class {
                 let dataParse = BSON.deserialize(dataRaw);
                 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
-                if(dataParse.process === processID) resolve(dataParse.variable.value);
+                if(dataParse.process === processID) resolve(dataParse);
             });
     
             await client.write(BSON.serialize({
@@ -188,7 +188,7 @@ module.exports = class {
                 let dataParse = BSON.deserialize(dataRaw);
                 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
-                if(dataParse.process === processID) resolve(dataParse.variable.value);
+                if(dataParse.process === processID) resolve(dataParse.passCheck.success);
             });
     
             await client.write(BSON.serialize({
@@ -215,7 +215,7 @@ module.exports = class {
                 let dataParse = BSON.deserialize(dataRaw);
                 
                 if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
-                if(dataParse.process === processID) resolve(dataParse.variable.value);
+                if(dataParse.process === processID) resolve(dataParse.tables);
             });
     
             await client.write(BSON.serialize({
@@ -227,5 +227,86 @@ module.exports = class {
                 "process": processID
             }));
         });
+    }
+
+    checkPermission = async function(user, permission) {
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse.result);
+            });
+
+            await client.write(BSON.serialize({
+                "action": "check_permission",
+                "permission": {
+                    "user": user,
+                    "name": permission
+                },
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "process": processID
+            }));
+        })
+    }
+
+    removePermission = async function(user, permission) {
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse);
+            });
+
+            await client.write(BSON.serialize({
+                "action": "remove_permission",
+                "permission": {
+                    "user": user,
+                    "name": permission
+                },
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "process": processID
+            }));
+        })
+    }
+
+    addPermission = async function(user, permission) {
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse);
+            });
+
+            await client.write(BSON.serialize({
+                "action": "add_permission",
+                "permission": {
+                    "user": user,
+                    "name": permission
+                },
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "process": processID
+            }));
+        })
     }
 }

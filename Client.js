@@ -229,6 +229,31 @@ module.exports = class {
         });
     }
 
+    getTableData = async function(table) {
+        return new Promise(async (resolve, reject) => {
+            let client = net.createConnection(this.port, this.host)
+            let processID = makeid(5);
+
+            await client.on("data", dataRaw => {
+                let dataParse = BSON.deserialize(dataRaw);
+                
+                if(dataParse.not_exists) resolve({"err": dataParse.err, "not_exist": true});
+                if(dataParse.process === processID && dataParse.err) resolve ({"err": dataParse.err});
+                if(dataParse.process === processID) resolve(dataParse);
+            });
+    
+            await client.write(BSON.serialize({
+                "action": "get_table_data",
+                "table": table,
+                "login": {
+                    "name": this.name,
+                    "password": this.password
+                },
+                "process": processID
+            }));
+        });
+    }
+
     checkPermission = async function(user, permission) {
         return new Promise(async (resolve, reject) => {
             let client = net.createConnection(this.port, this.host)
